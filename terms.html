@@ -1,0 +1,490 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Moncton Morning | Terms of use</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        color-scheme: light;
+        font-family: "Space Grotesk", system-ui, -apple-system, sans-serif;
+        --bg: #0f172a;
+        --card: #1e293b;
+        --card-soft: #334155;
+        --text: #e2e8f0;
+        --muted: #94a3b8;
+        --accent: #f97316;
+        --accent-soft: rgba(249, 115, 22, 0.15);
+        --border: rgba(226, 232, 240, 0.12);
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        background: radial-gradient(circle at top, #1f2937 0%, #0f172a 50%, #020617 100%);
+        color: var(--text);
+      }
+
+      a {
+        color: inherit;
+      }
+
+      .top-nav {
+        position: sticky;
+        top: 0;
+        z-index: 20;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 1rem;
+        padding: 0.85rem clamp(1rem, 4vw, 3rem);
+        background: rgba(15, 23, 42, 0.95);
+        border-bottom: 1px solid var(--border);
+        backdrop-filter: blur(12px);
+      }
+
+      .brand {
+        font-weight: 700;
+        letter-spacing: 0.02em;
+        font-size: 1.1rem;
+      }
+
+      .nav-links {
+        display: flex;
+        gap: 0.5rem;
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+
+      .nav-links button {
+        background: transparent;
+        border: 1px solid rgba(226, 232, 240, 0.4);
+        color: var(--text);
+        border-radius: 999px;
+        padding: 0.5rem 1rem;
+        font-weight: 500;
+        cursor: pointer;
+        transition: all 0.2s ease;
+      }
+
+      .nav-links button.active {
+        border-color: var(--accent);
+        background: var(--accent-soft);
+        color: #fff;
+      }
+
+      .nav-links a {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        text-decoration: none;
+        background: transparent;
+        border: 1px solid rgba(226, 232, 240, 0.4);
+        color: var(--text);
+        border-radius: 999px;
+        padding: 0.5rem 1rem;
+        font-weight: 500;
+        transition: all 0.2s ease;
+      }
+
+      .nav-links a.active {
+        border-color: var(--accent);
+        background: var(--accent-soft);
+        color: #fff;
+      }
+
+      .nav-cta {
+        background: linear-gradient(135deg, #f97316, #ea580c);
+        color: #fff;
+        border: none;
+        padding: 0.65rem 1.3rem;
+        border-radius: 999px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: transform 0.2s ease;
+      }
+
+      .nav-cta:hover {
+        transform: translateY(-1px);
+      }
+
+      .page-shell {
+        min-height: 100vh;
+        padding: 2rem clamp(1rem, 4vw, 3rem) 3rem;
+        display: flex;
+        flex-direction: column;
+        gap: 2rem;
+      }
+
+      .hero {
+        position: relative;
+        border: 1px solid var(--border);
+        border-radius: 1.5rem;
+        overflow: hidden;
+        box-shadow: 0 20px 45px rgba(15, 23, 42, 0.6);
+      }
+
+      .hero-bg {
+        position: absolute;
+        inset: 0;
+        background-image: url("hero-moncton.jpg");
+        background-size: cover;
+        background-position: center;
+      }
+
+      .hero-content {
+        position: relative;
+        margin: 0 auto;
+        padding: clamp(1.5rem, 3vw, 2.5rem);
+        max-width: 640px;
+        background: rgba(0, 0, 0, 0.55);
+        border-radius: 1.25rem;
+        display: flex;
+        flex-direction: column;
+        gap: 0.75rem;
+      }
+
+      .hero h1 {
+        margin: 0.25rem 0 0.75rem;
+        font-size: clamp(2.2rem, 4vw, 3.4rem);
+        line-height: 1.15;
+      }
+
+      .hero .lede {
+        color: var(--muted);
+        margin-bottom: 0.25rem;
+        max-width: 60ch;
+      }
+
+      .hero-subscribe {
+        align-self: flex-start;
+        border: none;
+        border-radius: 0.9rem;
+        padding: 0.75rem 1.75rem;
+        font-weight: 600;
+        background: linear-gradient(135deg, #f97316, #ea580c);
+        color: #fff;
+        cursor: pointer;
+        transition: transform 0.2s ease;
+      }
+
+      .hero-subscribe:hover {
+        transform: translateY(-1px);
+      }
+
+      .content {
+        display: grid;
+        gap: 1.5rem;
+      }
+
+      .section-card {
+        background: var(--card);
+        border: 1px solid var(--border);
+        border-radius: 1.25rem;
+        padding: 1.5rem;
+        box-shadow: 0 8px 30px rgba(15, 23, 42, 0.3);
+      }
+
+      .section-card h2 {
+        margin-top: 0;
+      }
+
+      .jobs-list,
+      .business-grid,
+      .news-list,
+      .events-list,
+      .tips-list,
+      .deals-list {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+        margin-top: 1rem;
+      }
+
+      .job-item,
+      .business-item,
+      .deal-item,
+      .tip-item {
+        border: 1px solid rgba(226, 232, 240, 0.08);
+        padding: 1rem;
+        border-radius: 1rem;
+        background: var(--card-soft);
+        display: flex;
+        flex-direction: column;
+        gap: 0.35rem;
+      }
+
+      .job-item .meta,
+      .business-item .meta,
+      .deal-item .meta,
+      .tip-item .meta {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.75rem;
+        color: var(--muted);
+        font-size: 0.9rem;
+      }
+
+      .category-chip {
+        border-radius: 999px;
+        padding: 0.25rem 0.75rem;
+        background: rgba(249, 115, 22, 0.15);
+        color: #f97316;
+        font-size: 0.85rem;
+        display: inline-flex;
+        align-items: center;
+      }
+
+      .filter-controls {
+        display: flex;
+        justify-content: flex-end;
+        gap: 0.75rem;
+        margin-top: 0.75rem;
+        flex-wrap: wrap;
+      }
+
+      .filter-controls select {
+        border-radius: 999px;
+        padding: 0.55rem 1rem;
+        border: 1px solid rgba(226, 232, 240, 0.5);
+        background: var(--card);
+        color: var(--text);
+      }
+
+      .newsletter {
+        margin-top: 2rem;
+        padding: clamp(1.5rem, 3vw, 2.25rem);
+        border-radius: 1.25rem;
+        background: linear-gradient(135deg, rgba(249, 115, 22, 0.1), rgba(15, 23, 42, 0.9));
+        border: 1px solid var(--border);
+        box-shadow: 0 15px 35px rgba(15, 23, 42, 0.4);
+      }
+
+      .legal-links {
+        text-align: center;
+        margin-top: 1rem;
+        font-size: 0.95rem;
+      }
+      .legal-links a {
+        color: var(--accent);
+        text-decoration: none;
+        font-weight: 600;
+      }
+
+      .newsletter-form-wrapper {
+        max-width: 540px;
+        margin: 1rem auto 0;
+      }
+
+      .newsletter-form {
+        margin: 0;
+        display: flex;
+        gap: 0.75rem;
+        flex-wrap: wrap;
+      }
+
+      .newsletter-form input {
+        flex: 1;
+        min-width: 220px;
+        padding: 0.9rem 1rem;
+        border-radius: 999px;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        background: rgba(15, 23, 42, 0.75);
+        color: #fff;
+      }
+
+      .newsletter-form button {
+        border-radius: 999px;
+        border: none;
+        background: #fff;
+        color: #111827;
+        font-weight: 600;
+        padding: 0.85rem 1.5rem;
+        cursor: pointer;
+      }
+
+      .notice {
+        text-transform: uppercase;
+        font-size: 0.8rem;
+        letter-spacing: 0.1em;
+        color: var(--muted);
+      }
+
+      .site-footer {
+        margin-top: 1.5rem;
+        background: #070b17;
+        border-radius: 1.25rem;
+        padding: 1.5rem clamp(1rem, 4vw, 3rem);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        color: rgba(226, 232, 240, 0.8);
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1rem;
+        font-size: 0.9rem;
+        justify-content: space-between;
+      }
+
+      .footer-links {
+        display: flex;
+        gap: 0.5rem;
+        flex-wrap: wrap;
+        align-items: center;
+      }
+
+      .footer-links a {
+        color: inherit;
+        text-decoration: none;
+        font-weight: 500;
+      }
+
+      .footer-links span {
+        color: rgba(226, 232, 240, 0.4);
+      }
+
+      .hidden {
+        display: none;
+      }
+
+      .modal-backdrop {
+        position: fixed;
+        inset: 0;
+        background: rgba(2, 6, 23, 0.7);
+        display: none;
+        align-items: center;
+        justify-content: center;
+        z-index: 40;
+        padding: 1.5rem;
+      }
+
+      .modal-backdrop.open {
+        display: flex;
+      }
+
+      .modal {
+        background: var(--card);
+        border-radius: 1.25rem;
+        padding: 1.5rem;
+        max-width: 520px;
+        width: 100%;
+        border: 1px solid var(--border);
+      }
+
+      .modal header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 1rem;
+      }
+
+      .modal form {
+        display: grid;
+        gap: 0.75rem;
+      }
+
+      .modal label {
+        font-size: 0.9rem;
+        color: var(--muted);
+      }
+
+      .modal input,
+      .modal select,
+      .modal textarea {
+        width: 100%;
+        padding: 0.65rem 0.8rem;
+        border-radius: 0.75rem;
+        border: 1px solid rgba(226, 232, 240, 0.3);
+        background: rgba(15, 23, 42, 0.7);
+        color: var(--text);
+      }
+
+      .modal button {
+        justify-self: flex-end;
+        background: linear-gradient(135deg, #f97316, #ea580c);
+        color: #fff;
+        border: none;
+        padding: 0.6rem 1.4rem;
+        border-radius: 999px;
+        font-weight: 600;
+        cursor: pointer;
+      }
+
+      @media (max-width: 840px) {
+        .top-nav {
+          flex-direction: column;
+          align-items: flex-start;
+        }
+
+        .nav-links {
+          width: 100%;
+          justify-content: flex-start;
+        }
+
+        .nav-cta {
+          width: 100%;
+          text-align: center;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <nav class="top-nav">
+      <div class="brand">Moncton Morning</div>
+      <div class="nav-links" role="tablist">
+        <a href="index.html?tab=jobs" class="active">Jobs</a>
+        <a href="index.html?tab=makers">Makers &amp; Services</a>
+        <a href="index.html?tab=deals">Deals</a>
+        <a href="index.html?tab=sidehustle">Side Hustle Ideas</a>
+      </div>
+      <button type="button" class="nav-cta" id="open-submit">Submit Listing for Free</button>
+    </nav>
+    <div class="page-shell">
+      <header class="hero">
+        <div class="hero-bg" aria-hidden="true"></div>
+        <div class="hero-content" role="presentation">
+          <h1>Terms of use</h1>
+        </div>
+      </header>
+
+      <main class="content">
+        <section class="section-card" id="terms">
+          <h2>Terms of use</h2>
+          <p>Listings and linked content are provided "as is" without guarantees. Users are responsible for verifying any listing before acting.</p><p>I can remove or refuse submissions at any time, and liability is limited to the fullest extent permitted by law.</p>
+        </section>
+      </main>
+
+      <section id="newsletter" class="newsletter">
+        <div>
+          <p class="notice">Newsletter</p>
+          <h2>Be first to know in Moncton</h2>
+          <p>Early jobs. Hidden events. Exclusive deals. Delivered to your inbox every Thursday</p>
+        </div>
+        <div class="newsletter-form-wrapper">
+          <form id="subscribe-form" class="newsletter-form">
+            <input id="subscribe-email" type="email" name="email" placeholder="you@email.com" required />
+            <button type="submit">Subscribe</button>
+          </form>
+        </div>
+        <p id="newsletter-note" class="notice">Every Thursday. Unsubscribe anytime.</p>
+      </section>
+      <footer class="site-footer">
+        <div>Moncton Morning - local jobs, small businesses, and deals in Greater Moncton.</div>
+        <div class="footer-links">
+          <a href="about.html">About</a><span> </span>
+          <a href="privacy.html">Privacy</a><span> </span>
+          <a href="terms.html">Terms</a><span> </span>
+          <a href="mailto:tapan@monctonmorning.ca">Contact</a>
+        </div>
+        <div>tapan@monctonmorning.ca</div>
+      </footer>
+    </div>
+  </body>
+</html>

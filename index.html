@@ -1,0 +1,1127 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Moncton Morning</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        color-scheme: light;
+        font-family: "Space Grotesk", system-ui, -apple-system, sans-serif;
+        --bg: #0f172a;
+        --card: #1e293b;
+        --card-soft: #334155;
+        --text: #e2e8f0;
+        --muted: #94a3b8;
+        --accent: #f97316;
+        --accent-soft: rgba(249, 115, 22, 0.15);
+        --border: rgba(226, 232, 240, 0.12);
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        background: radial-gradient(circle at top, #1f2937 0%, #0f172a 50%, #020617 100%);
+        color: var(--text);
+      }
+
+      a {
+        color: inherit;
+      }
+
+      .top-nav {
+        position: sticky;
+        top: 0;
+        z-index: 20;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 1rem;
+        padding: 0.85rem clamp(1rem, 4vw, 3rem);
+        background: rgba(15, 23, 42, 0.95);
+        border-bottom: 1px solid var(--border);
+        backdrop-filter: blur(12px);
+      }
+
+      .brand {
+        font-weight: 700;
+        letter-spacing: 0.02em;
+        font-size: 1.1rem;
+      }
+
+      .nav-links {
+        display: flex;
+        gap: 0.5rem;
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+
+      .nav-links button {
+        background: transparent;
+        border: 1px solid rgba(226, 232, 240, 0.4);
+        color: var(--text);
+        border-radius: 999px;
+        padding: 0.5rem 1rem;
+        font-weight: 500;
+        cursor: pointer;
+        transition: all 0.2s ease;
+      }
+
+      .nav-links button.active {
+        border-color: var(--accent);
+        background: var(--accent-soft);
+        color: #fff;
+      }
+
+      .nav-cta {
+        background: linear-gradient(135deg, #f97316, #ea580c);
+        color: #fff;
+        border: none;
+        padding: 0.65rem 1.3rem;
+        border-radius: 999px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: transform 0.2s ease;
+      }
+
+      .nav-cta:hover {
+        transform: translateY(-1px);
+      }
+
+      .page-shell {
+        min-height: 100vh;
+        padding: 2rem clamp(1rem, 4vw, 3rem) 3rem;
+        display: flex;
+        flex-direction: column;
+        gap: 2rem;
+      }
+
+      .hero {
+        position: relative;
+        border: 1px solid var(--border);
+        border-radius: 1.5rem;
+        overflow: hidden;
+        box-shadow: 0 20px 45px rgba(15, 23, 42, 0.6);
+      }
+
+      .hero-bg {
+        position: absolute;
+        inset: 0;
+        background-image: url("hero-moncton.jpg");
+        background-size: cover;
+        background-position: center;
+      }
+
+      .hero-content {
+        position: relative;
+        margin: 0 auto;
+        padding: clamp(1.5rem, 3vw, 2.5rem);
+        max-width: 640px;
+        background: rgba(0, 0, 0, 0.55);
+        border-radius: 1.25rem;
+        display: flex;
+        flex-direction: column;
+        gap: 0.75rem;
+      }
+
+      .hero h1 {
+        margin: 0.25rem 0 0.75rem;
+        font-size: clamp(2.2rem, 4vw, 3.4rem);
+        line-height: 1.15;
+      }
+
+      .hero .lede {
+        color: var(--muted);
+        margin-bottom: 0.25rem;
+        max-width: 60ch;
+      }
+
+      .hero-subscribe {
+        align-self: flex-start;
+        border: none;
+        border-radius: 0.9rem;
+        padding: 0.75rem 1.75rem;
+        font-weight: 600;
+        background: linear-gradient(135deg, #f97316, #ea580c);
+        color: #fff;
+        cursor: pointer;
+        transition: transform 0.2s ease;
+      }
+
+      .hero-subscribe:hover {
+        transform: translateY(-1px);
+      }
+
+      .content {
+        display: grid;
+        gap: 1.5rem;
+      }
+
+      .section-card {
+        background: var(--card);
+        border: 1px solid var(--border);
+        border-radius: 1.25rem;
+        padding: 1.5rem;
+        box-shadow: 0 8px 30px rgba(15, 23, 42, 0.3);
+      }
+
+      .section-card h2 {
+        margin-top: 0;
+      }
+
+      .jobs-list,
+      .business-grid,
+      .news-list,
+      .events-list,
+      .tips-list,
+      .deals-list {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+        margin-top: 1rem;
+      }
+
+      .job-item,
+      .business-item,
+      .deal-item,
+      .tip-item {
+        border: 1px solid rgba(226, 232, 240, 0.08);
+        padding: 1rem;
+        border-radius: 1rem;
+        background: var(--card-soft);
+        display: flex;
+        flex-direction: column;
+        gap: 0.35rem;
+      }
+
+      .job-item .meta,
+      .business-item .meta,
+      .deal-item .meta,
+      .tip-item .meta {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.75rem;
+        color: var(--muted);
+        font-size: 0.9rem;
+      }
+
+      .category-chip {
+        border-radius: 999px;
+        padding: 0.25rem 0.75rem;
+        background: rgba(249, 115, 22, 0.15);
+        color: #f97316;
+        font-size: 0.85rem;
+        display: inline-flex;
+        align-items: center;
+      }
+
+      .filter-controls {
+        display: flex;
+        justify-content: flex-end;
+        gap: 0.75rem;
+        margin-top: 0.75rem;
+        flex-wrap: wrap;
+      }
+
+      .filter-controls select {
+        border-radius: 999px;
+        padding: 0.55rem 1rem;
+        border: 1px solid rgba(226, 232, 240, 0.5);
+        background: var(--card);
+        color: var(--text);
+      }
+
+      .newsletter {
+        margin-top: 2rem;
+        padding: clamp(1.5rem, 3vw, 2.25rem);
+        border-radius: 1.25rem;
+        background: linear-gradient(135deg, rgba(249, 115, 22, 0.1), rgba(15, 23, 42, 0.9));
+        border: 1px solid var(--border);
+        box-shadow: 0 15px 35px rgba(15, 23, 42, 0.4);
+      }
+
+      .legal-links {
+        text-align: center;
+        margin-top: 1rem;
+        font-size: 0.95rem;
+      }
+      .legal-links a {
+        color: var(--accent);
+        text-decoration: none;
+        font-weight: 600;
+      }
+
+      .newsletter-form-wrapper {
+        max-width: 540px;
+        margin: 1rem auto 0;
+      }
+
+      .newsletter-form {
+        margin: 0;
+        display: flex;
+        gap: 0.75rem;
+        flex-wrap: wrap;
+      }
+
+      .newsletter-form input {
+        flex: 1;
+        min-width: 220px;
+        padding: 0.9rem 1rem;
+        border-radius: 999px;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        background: rgba(15, 23, 42, 0.75);
+        color: #fff;
+      }
+
+      .newsletter-form button {
+        border-radius: 999px;
+        border: none;
+        background: #fff;
+        color: #111827;
+        font-weight: 600;
+        padding: 0.85rem 1.5rem;
+        cursor: pointer;
+      }
+
+      .notice {
+        text-transform: uppercase;
+        font-size: 0.8rem;
+        letter-spacing: 0.1em;
+        color: var(--muted);
+      }
+
+      .site-footer {
+        margin-top: 1.5rem;
+        background: #070b17;
+        border-radius: 1.25rem;
+        padding: 1.5rem clamp(1rem, 4vw, 3rem);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        color: rgba(226, 232, 240, 0.8);
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1rem;
+        font-size: 0.9rem;
+        justify-content: space-between;
+      }
+
+      .footer-links {
+        display: flex;
+        gap: 0.5rem;
+        flex-wrap: wrap;
+        align-items: center;
+      }
+
+      .footer-links a {
+        color: inherit;
+        text-decoration: none;
+        font-weight: 500;
+      }
+
+      .footer-links span {
+        color: rgba(226, 232, 240, 0.4);
+      }
+
+      .hidden {
+        display: none;
+      }
+
+      .modal-backdrop {
+        position: fixed;
+        inset: 0;
+        background: rgba(2, 6, 23, 0.7);
+        display: none;
+        align-items: center;
+        justify-content: center;
+        z-index: 40;
+        padding: 1.5rem;
+      }
+
+      .modal-backdrop.open {
+        display: flex;
+      }
+
+      .modal {
+        background: var(--card);
+        border-radius: 1.25rem;
+        padding: 1.5rem;
+        max-width: 520px;
+        width: 100%;
+        border: 1px solid var(--border);
+      }
+
+      .modal header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 1rem;
+      }
+
+      .modal form {
+        display: grid;
+        gap: 0.75rem;
+      }
+
+      .modal label {
+        font-size: 0.9rem;
+        color: var(--muted);
+      }
+
+      .modal input,
+      .modal select,
+      .modal textarea {
+        width: 100%;
+        padding: 0.65rem 0.8rem;
+        border-radius: 0.75rem;
+        border: 1px solid rgba(226, 232, 240, 0.3);
+        background: rgba(15, 23, 42, 0.7);
+        color: var(--text);
+      }
+
+      .modal button {
+        justify-self: flex-end;
+        background: linear-gradient(135deg, #f97316, #ea580c);
+        color: #fff;
+        border: none;
+        padding: 0.6rem 1.4rem;
+        border-radius: 999px;
+        font-weight: 600;
+        cursor: pointer;
+      }
+
+      @media (max-width: 840px) {
+        .top-nav {
+          flex-direction: column;
+          align-items: flex-start;
+        }
+
+        .nav-links {
+          width: 100%;
+          justify-content: flex-start;
+        }
+
+        .nav-cta {
+          width: 100%;
+          text-align: center;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <nav class="top-nav">
+      <div class="brand">Moncton Morning</div>
+      <div class="nav-links" role="tablist">
+        <button type="button" class="active" data-tab="jobs">Jobs</button>
+        <button type="button" data-tab="makers">Makers &amp; Services</button>
+        <button type="button" data-tab="deals">Deals</button>
+        <button type="button" data-tab="sidehustle">Side Hustle Ideas</button>
+      </div>
+      <button type="button" class="nav-cta" id="open-submit">Submit Listing for Free</button>
+    </nav>
+
+    <div class="page-shell">
+      <header class="hero">
+        <div class="hero-bg" aria-hidden="true"></div>
+        <div class="hero-content" role="presentation">
+          <h1>Connecting Greater Moncton, Everyday.</h1>
+          <p class="lede">Your definitive source for local jobs, Servieces and curated community deals.</p>
+          <button type="button" class="hero-subscribe" id="hero-subscribe">Subscribe</button>
+        </div>
+      </header>
+
+      <main class="content">
+        <section id="jobs" class="section-card">
+          <p class="notice">Local Jobs</p>
+          <h2>Open roles in Moncton</h2>
+         <div class="jobs-list"></div>
+        </section>
+
+        <section id="makers" class="section-card hidden">
+          <p class="notice">Makers &amp; Services</p>
+          <h2>Local businesses you can call today</h2>
+          <div class="filter-controls">
+            <select id="maker-filter">
+              <option>All</option>
+              <option>Food</option>
+              <option>Services</option>
+              <option>Retail</option>
+              <option>Home-based</option>
+              <option>Other</option>
+            </select>
+          </div>
+          <div class="business-grid"></div>
+        </section>
+
+        <section id="deals" class="section-card hidden">
+          <h2>Discounts from local businesses</h2>
+          <div class="deals-list"></div>
+        </section>
+
+        <section id="sidehustle" class="section-card hidden">
+          <p class="notice">Side Hustle Tips</p>
+          <h2>Quick ideas to earn extra cash</h2>
+          <div class="tips-list"></div>
+        </section>
+        <section id="news" class="section-card hidden">
+          <p class="notice">Newsletter news</p>
+          <h2>What's happening this week</h2>
+          <div class="news-list"></div>
+        </section>
+        <section id="events" class="section-card hidden">
+          <p class="notice">Newsletter events</p>
+          <h2>Community calendar</h2>
+          <div class="events-list"></div>
+        </section>
+      </main>
+
+      <section id="newsletter" class="newsletter">
+        <div>
+          <p class="notice">Newsletter</p>
+          <h2>Be first to know in Moncton</h2>
+          <p>Early jobs. Hidden events. Exclusive deals. Delivered to your inbox every Thursday</p>
+        </div>
+        <div class="newsletter-form-wrapper">
+          <form id="subscribe-form" class="newsletter-form">
+            <input id="subscribe-email" type="email" name="email" placeholder="you@email.com" required />
+            <button type="submit">Subscribe</button>
+          </form>
+        </div>
+        <p id="newsletter-note" class="notice">Every Thursday. Unsubscribe anytime.</p>
+      </section>
+
+<footer class="site-footer">
+        <div>Moncton Morning - local jobs, small businesses, and deals in Greater Moncton.</div>
+        <div class="footer-links">
+          <a href="about.html">About</a><span>&middot;</span>
+          <a href="privacy.html">Privacy</a><span>&middot;</span>
+          <a href="terms.html">Terms</a><span>&middot;</span>
+          <a href="mailto:tapan@monctonmorning.ca">Contact</a>
+        </div>
+        <div>tapan@monctonmorning.ca</div>
+      </footer>
+    </div>
+
+    <div class="modal-backdrop" id="submit-modal">
+      <div class="modal">
+        <header>
+          <h3>Submit a listing</h3>
+          <button type="button" id="close-submit">Close</button>
+        </header>
+        <form id="submit-form">
+          <label for="listing-type">Listing type</label>
+          <select id="listing-type" name="listing-type" required>
+            <option value="Job">Job</option>
+            <option value="Business / Service">Business / Service</option>
+            <option value="Deal">Deal</option>
+          </select>
+          <label for="listing-email">Contact email</label>
+          <input id="listing-email" type="email" name="email" placeholder="you@email.com" required />
+          <label for="listing-phone">Phone (optional)</label>
+          <input id="listing-phone" type="tel" name="phone" placeholder="(506) 555-1234" />
+          <label for="listing-details">Listing details</label>
+          <textarea id="listing-details" name="details" rows="4" placeholder="Share the essentials"></textarea>
+          <p id="submit-error" class="notice" style="color:#fca5a5;"></p>
+          <p id="submit-success" class="notice"></p>
+          <button type="submit">Send</button>
+        </form>
+      </div>
+    </div>
+
+    <script>
+const AIRTABLE_CONFIG = {
+  apiKey: "REPLACE_WITH_YOUR_API_KEY",
+  baseId: "appRkIddAFC3p5eqv",
+  tables: {
+    jobs: "Jobs",
+    directory: "Directory",
+    deals: "Deals",
+    tips: "SideHustleTips",
+    news: "News",
+    events: "Events",
+    submissions: "Submissions",
+    subscribers: "Subscribers"
+  }
+};
+
+const apiBase = `https://api.airtable.com/v0/${AIRTABLE_CONFIG.baseId}/`;
+const authHeaders = () => ({
+  Authorization: `Bearer ${AIRTABLE_CONFIG.apiKey}`
+});
+const jsonHeaders = () => ({
+  ...authHeaders(),
+  "Content-Type": "application/json"
+});
+
+async function fetchTable(tableName) {
+  try {
+    const url = `${apiBase}${encodeURIComponent(tableName)}?pageSize=100`;
+    const response = await fetch(url, { headers: authHeaders() });
+    if (!response.ok) {
+      console.error("Airtable error", tableName, response.status, await response.text());
+      return [];
+    }
+    const data = await response.json();
+    return (data.records || []).map((record) => ({ ...record.fields, _createdTime: record.createdTime }));
+  } catch (error) {
+    console.error("Could not fetch", tableName, error);
+    return [];
+  }
+}
+
+async function postRecord(tableName, fields) {
+  try {
+    const url = `${apiBase}${encodeURIComponent(tableName)}`;
+    const response = await fetch(url, {
+      method: "POST",
+      headers: jsonHeaders(),
+      body: JSON.stringify({ fields })
+    });
+    if (!response.ok) {
+      console.error("Airtable POST error", tableName, response.status, await response.text());
+      return null;
+    }
+    return await response.json();
+  } catch (error) {
+    console.error("POST failed", tableName, error);
+    return null;
+  }
+}
+
+const navButtons = document.querySelectorAll(".nav-links button[data-tab]");
+const sections = document.querySelectorAll("main section");
+const submitModal = document.getElementById("submit-modal");
+const openSubmit = document.getElementById("open-submit");
+const closeSubmit = document.getElementById("close-submit");
+const submitForm = document.getElementById("submit-form");
+const submitError = document.getElementById("submit-error");
+const submitSuccess = document.getElementById("submit-success");
+const subscribeEmail = document.getElementById("subscribe-email");
+const subscribeForm = document.getElementById("subscribe-form");
+const newsletterNote = document.getElementById("newsletter-note");
+const makerFilter = document.getElementById("maker-filter");
+const heroSubscribe = document.getElementById("hero-subscribe");
+
+const jobList = document.querySelector("#jobs .jobs-list");
+const businessGrid = document.querySelector("#makers .business-grid");
+const dealsList = document.querySelector("#deals .deals-list");
+const tipsList = document.querySelector("#sidehustle .tips-list");
+const newsList = document.querySelector("#news .news-list");
+const eventsList = document.querySelector("#events .events-list");
+
+let directoryRecords = [];
+
+function showSection(id) {
+  sections.forEach((section) => {
+    section.classList.toggle("hidden", section.id !== id);
+  });
+  navButtons.forEach((button) => {
+    button.classList.toggle("active", button.dataset.tab === id);
+  });
+}
+
+function formatDate(value) {
+  if (!value) return "";
+  const date = new Date(value);
+  if (Number.isNaN(date)) return value;
+  return new Intl.DateTimeFormat("en-CA", { dateStyle: "medium" }).format(date);
+}
+
+function hasFeatured(record) {
+  return Boolean(record?.Featured || record?.["Featured?"]);
+}
+
+function getField(record, ...keys) {
+  if (!record) return "";
+  for (const key of keys) {
+    const value = record[key];
+    if (typeof value === "string" && value.trim()) return value.trim();
+    if (value || value === 0) return value;
+  }
+  return "";
+}
+
+function createJobCard(job) {
+  const card = document.createElement("article");
+  card.className = "job-item";
+
+  const title = document.createElement("h3");
+  title.style.display = "flex";
+  title.style.alignItems = "center";
+  title.style.justifyContent = "space-between";
+  title.style.gap = "0.5rem";
+
+  const titleText = document.createElement("span");
+  if (job.Link) {
+    const link = document.createElement("a");
+    link.href = job.Link;
+    link.textContent = job.Title || "Job";
+    link.target = "_blank";
+    link.rel = "noreferrer";
+    titleText.appendChild(link);
+  } else {
+    titleText.textContent = job.Title || "Job";
+  }
+
+  const badgeWrapper = document.createElement("span");
+  badgeWrapper.style.marginLeft = "auto";
+  if (hasFeatured(job)) {
+    const badge = document.createElement("span");
+    badge.className = "category-chip";
+    badge.textContent = "Featured";
+    badgeWrapper.appendChild(badge);
+  }
+
+  title.appendChild(titleText);
+  if (badgeWrapper.children.length) {
+    title.appendChild(badgeWrapper);
+  }
+
+  const meta = document.createElement("div");
+  meta.className = "meta";
+  if (job.Company) meta.appendChild(Object.assign(document.createElement("span"), { textContent: job.Company }));
+  if (job.Location) meta.appendChild(Object.assign(document.createElement("span"), { textContent: job.Location }));
+  const jobType = job.Type || job.Category;
+  if (jobType) {
+    meta.appendChild(Object.assign(document.createElement("span"), { textContent: jobType }));
+  }
+  const postedValue = job["Posted date"] || job.PostedAt || job.Posted;
+  if (postedValue) {
+    const posted = document.createElement("span");
+    posted.textContent = "Posted: " + formatDate(postedValue);
+    meta.appendChild(posted);
+  }
+
+  const action = document.createElement("a");
+  action.className = "cta";
+  action.textContent = "View details";
+  action.href = job.Link || "#";
+  action.target = "_blank";
+  action.rel = "noreferrer";
+  action.style.fontSize = "0.85rem";
+  action.style.padding = "0.35rem 0.9rem";
+
+  card.append(title);
+  if (meta.childElementCount) card.append(meta);
+  card.append(action);
+  return card;
+}
+function renderJobs(records) {
+  jobList.innerHTML = "";
+  if (!records.length) {
+    jobList.textContent = "Jobs will appear here once listed.";
+    return;
+  }
+  const sorted = [...records].sort((a, b) => {
+    if (hasFeatured(a) !== hasFeatured(b)) return hasFeatured(b) ? 1 : -1;
+    const aDate = new Date(a["Posted date"] || a.PostedAt || a.Posted || a._createdTime || 0).getTime();
+    const bDate = new Date(b["Posted date"] || b.PostedAt || b.Posted || b._createdTime || 0).getTime();
+    return bDate - aDate;
+  });
+  sorted.forEach((job) => jobList.appendChild(createJobCard(job)));
+}
+
+function updateDirectoryList() {
+  businessGrid.innerHTML = "";
+  const filter = (makerFilter.value || "all").toLowerCase();
+  const filtered = directoryRecords.filter((item) => {
+    const category = (item.Category || "Other").toLowerCase();
+    return filter === "all" || category === filter;
+  });
+  if (!filtered.length) {
+    businessGrid.textContent = "No businesses found for that category.";
+    return;
+  }
+  filtered.forEach((business) => {
+    const card = document.createElement("article");
+    card.className = "business-item";
+    card.dataset.category = business.Category || "Other";
+
+    const title = document.createElement("h3");
+    if (business.Link) {
+      const link = document.createElement("a");
+      link.href = business.Link;
+      link.textContent = business.Name || "Local business";
+      link.target = "_blank";
+      link.rel = "noreferrer";
+      title.appendChild(link);
+    } else {
+      title.textContent = business.Name || "Local business";
+    }
+    if (hasFeatured(business)) {
+      const badge = document.createElement("span");
+      badge.className = "category-chip";
+      badge.textContent = "Featured";
+      title.appendChild(badge);
+    }
+
+    const description = document.createElement("p");
+    description.textContent = business.Description || "";
+
+    const meta = document.createElement("div");
+    meta.className = "meta";
+    if (business.Category) meta.appendChild(Object.assign(document.createElement("span"), { textContent: business.Category }));
+    const area = business.Area || business.Location;
+    if (area) meta.appendChild(Object.assign(document.createElement("span"), { textContent: area }));
+
+    card.append(title);
+    if (description.textContent) card.append(description);
+    if (meta.childElementCount) card.append(meta);
+    if (business.Contact) {
+      const contact = document.createElement("p");
+      contact.className = "meta";
+      contact.textContent = `Contact: ${business.Contact}`;
+      card.append(contact);
+    }
+    if (business.Link) {
+      const action = document.createElement("a");
+      action.href = business.Link;
+      action.textContent = "View / Contact";
+      action.target = "_blank";
+      action.rel = "noreferrer";
+      action.className = "cta";
+      action.style.fontSize = "0.85rem";
+      action.style.padding = "0.35rem 0.9rem";
+      card.append(action);
+    }
+
+    businessGrid.appendChild(card);
+  });
+}
+
+function createDealCard(deal) {
+  const card = document.createElement("article");
+  card.className = "deal-item";
+
+  const businessName = getField(deal, "Business", "BusinessName", "Business Name");
+  const title = document.createElement("h3");
+  title.textContent = businessName || "Local deal";
+  if (hasFeatured(deal)) {
+    const badge = document.createElement("span");
+    badge.className = "category-chip";
+    badge.textContent = "Featured";
+    title.appendChild(badge);
+  }
+  card.append(title);
+
+  const offerText = getField(deal, "Offer Text", "OfferText");
+  if (offerText) {
+    const description = document.createElement("p");
+    description.textContent = offerText;
+    card.append(description);
+  }
+
+  const meta = document.createElement("div");
+  meta.className = "meta";
+  const area = getField(deal, "Area", "Location");
+  if (area) meta.appendChild(Object.assign(document.createElement("span"), { textContent: area }));
+  const postedValue = getField(deal, "Posted date", "PostedAt", "Posted");
+  if (postedValue) {
+    meta.appendChild(Object.assign(document.createElement("span"), { textContent: `Posted: ${formatDate(postedValue)}` }));
+  }
+  const expiry = getField(deal, "Expiry Date", "ExpiryDate");
+  if (expiry) meta.appendChild(Object.assign(document.createElement("span"), { textContent: `Valid until ${formatDate(expiry)}` }));
+  if (meta.childElementCount) card.append(meta);
+
+  const dealLink = getField(deal, "Link", "SourceLink");
+  if (dealLink) {
+    const action = document.createElement("a");
+    action.className = "cta";
+    action.textContent = "View deal";
+    action.href = dealLink;
+    action.target = "_blank";
+    action.rel = "noreferrer";
+    action.style.fontSize = "0.85rem";
+    action.style.padding = "0.35rem 0.9rem";
+    card.append(action);
+  }
+
+  return card;
+}
+function renderDeals(records) {
+  dealsList.innerHTML = "";
+  if (!records.length) {
+    dealsList.textContent = "Deals will appear here soon.";
+    return;
+  }
+  const featured = records.filter((deal) => hasFeatured(deal));
+  const others = records.filter((deal) => !hasFeatured(deal));
+  if (featured.length) {
+    const label = document.createElement("p");
+    label.className = "notice";
+    label.textContent = "Top deals";
+    dealsList.appendChild(label);
+    featured.forEach((deal) => dealsList.appendChild(createDealCard(deal)));
+  }
+  if (others.length) {
+    const label = document.createElement("p");
+    label.className = "notice";
+    label.textContent = featured.length ? "More deals" : "Latest deals";
+    dealsList.appendChild(label);
+    others.forEach((deal) => dealsList.appendChild(createDealCard(deal)));
+  }
+}
+
+function renderSideHustle(records) {
+  tipsList.innerHTML = "";
+  if (!records.length) {
+    tipsList.textContent = "Side hustle tips are coming soon.";
+    return;
+  }
+  records.forEach((tip) => {
+    const card = document.createElement("article");
+    card.className = "tip-item";
+    const title = document.createElement("h3");
+    title.textContent = tip.Title || "Side hustle idea";
+    const description = document.createElement("p");
+    description.textContent = tip.Description || "";
+    const actions = document.createElement("div");
+    actions.className = "meta";
+    const affiliate = tip["Affiliate link"] || tip.AffiliateLink;
+    if (affiliate) {
+      const link = document.createElement("a");
+      link.className = "cta";
+      link.textContent = "Visit link";
+      link.href = affiliate;
+      link.target = "_blank";
+      link.rel = "noreferrer";
+      link.style.fontSize = "0.85rem";
+      link.style.padding = "0.35rem 0.9rem";
+      actions.appendChild(link);
+    }
+    const guide = tip["Read Guide link"] || tip.ReadGuideLink;
+    if (guide) {
+      const guideLink = document.createElement("a");
+      guideLink.textContent = "Learn more";
+      guideLink.href = guide;
+      guideLink.target = "_blank";
+      guideLink.rel = "noreferrer";
+      guideLink.style.fontSize = "0.8rem";
+      guideLink.style.marginLeft = "0.5rem";
+      actions.appendChild(guideLink);
+    }
+    card.append(title);
+    if (description.textContent) card.append(description);
+    if (actions.childElementCount) card.append(actions);
+    tipsList.appendChild(card);
+  });
+}
+
+function getWeekGroups(records) {
+  const grouped = new Map();
+  records.forEach((record, index) => {
+    const start = record.WeekStartDate || record["WeekStartDate"] || record["Week Start Date"] || "";
+    const label = record.WeekLabel || "";
+    const key = start || label || `week-${index}`;
+    if (!grouped.has(key)) {
+      grouped.set(key, { weekLabel: label, weekStart: start, rows: [] });
+    }
+    const group = grouped.get(key);
+    if (!group.weekLabel && label) {
+      group.weekLabel = label;
+    }
+    group.rows.push(record);
+  });
+  return Array.from(grouped.values()).sort((a, b) => {
+    const aDate = new Date(a.weekStart || 0).getTime();
+    const bDate = new Date(b.weekStart || 0).getTime();
+    return bDate - aDate;
+  });
+}
+
+function renderNews(records) {
+  newsList.innerHTML = "";
+  if (!records.length) {
+    newsList.textContent = "Newsletter news will appear here.";
+    return;
+  }
+  const groups = getWeekGroups(records);
+  groups.forEach((group) => {
+    const card = document.createElement("article");
+    card.className = "job-item";
+    const label = document.createElement("p");
+    label.className = "notice";
+    label.textContent = "Newsletter News";
+    const heading = document.createElement("h3");
+    const headingText = group.weekLabel || (group.weekStart ? "Week of " + formatDate(group.weekStart) : "Latest");
+    heading.textContent = headingText;
+    const list = document.createElement("ul");
+    list.style.paddingLeft = "1.1rem";
+    group.rows.slice(0, 3).forEach((item) => {
+      if (!item.Headline && !item.SourceLink) return;
+      const li = document.createElement("li");
+      const link = document.createElement("a");
+      link.href = item.SourceLink || "#";
+      link.textContent = item.Headline || "News";
+      link.target = "_blank";
+      link.rel = "noreferrer";
+      li.appendChild(link);
+      list.appendChild(li);
+    });
+    card.append(label, heading, list);
+    newsList.appendChild(card);
+  });
+}
+
+function renderEvents(records) {
+  eventsList.innerHTML = "";
+  if (!records.length) {
+    eventsList.textContent = "Upcoming newsletter events will appear here.";
+    return;
+  }
+  const groups = getWeekGroups(records);
+  groups.forEach((group) => {
+    const card = document.createElement("article");
+    card.className = "job-item";
+    const label = document.createElement("p");
+    label.className = "notice";
+    label.textContent = "Newsletter Events";
+    const heading = document.createElement("h3");
+    const headingText = group.weekLabel || (group.weekStart ? "Week of " + formatDate(group.weekStart) : "Latest");
+    heading.textContent = headingText;
+    const list = document.createElement("ul");
+    list.style.paddingLeft = "1.1rem";
+    group.rows.slice(0, 3).forEach((item) => {
+      if (!item.Title && !item.SourceLink) return;
+      const li = document.createElement("li");
+      const link = document.createElement("a");
+      link.href = item.SourceLink || "#";
+      link.textContent = item.Title || "Event";
+      link.target = "_blank";
+      link.rel = "noreferrer";
+      li.appendChild(link);
+      list.appendChild(li);
+    });
+    card.append(label, heading, list);
+    eventsList.appendChild(card);
+  });
+}
+function renderDirectory(records) {
+  directoryRecords = [...records].sort((a, b) => (hasFeatured(b) ? 1 : 0) - (hasFeatured(a) ? 1 : 0));
+  updateDirectoryList();
+}
+
+async function loadAirtableData() {
+  const [jobs, directory, deals, tips, news, events] = await Promise.all([
+    fetchTable(AIRTABLE_CONFIG.tables.jobs),
+    fetchTable(AIRTABLE_CONFIG.tables.directory),
+    fetchTable(AIRTABLE_CONFIG.tables.deals),
+    fetchTable(AIRTABLE_CONFIG.tables.tips),
+    fetchTable(AIRTABLE_CONFIG.tables.news),
+    fetchTable(AIRTABLE_CONFIG.tables.events)
+  ]);
+
+  renderJobs(jobs);
+  renderDirectory(directory);
+  renderDeals(deals);
+  renderSideHustle(tips);
+  renderNews(news);
+  renderEvents(events);
+}
+
+navButtons.forEach((button) => {
+  button.addEventListener("click", () => {
+    showSection(button.dataset.tab);
+  });
+});
+
+openSubmit.addEventListener("click", () => {
+  submitModal.classList.add("open");
+  submitSuccess.textContent = "";
+  submitError.textContent = "";
+});
+
+closeSubmit.addEventListener("click", () => {
+  submitModal.classList.remove("open");
+});
+
+submitModal.addEventListener("click", (event) => {
+  if (event.target === submitModal) {
+    submitModal.classList.remove("open");
+  }
+});
+
+submitForm.addEventListener("submit", async (event) => {
+  event.preventDefault();
+  submitError.textContent = "";
+  submitSuccess.textContent = "";
+  const formData = new FormData(submitForm);
+  const email = (formData.get("email") || "").toString().trim();
+  const phone = (formData.get("phone") || "").toString().trim();
+  const listingType = formData.get("listing-type") || "";
+  const details = (formData.get("details") || "").toString().trim();
+  const isValid = /\S+@\S+\.\S+/.test(email);
+  if (!isValid) {
+    submitError.textContent = "Please enter a valid email.";
+    return;
+  }
+  const payload = {
+    "Listing type": listingType,
+    "Contact email": email,
+    Phone: phone || undefined,
+    "Listing details": details
+  };
+  const result = await postRecord(AIRTABLE_CONFIG.tables.submissions, payload);
+  if (result) {
+    submitSuccess.textContent = "Thanks! Your listing request has been received. I'll review and contact you if needed.";
+    submitForm.reset();
+  } else {
+    submitError.textContent = "Something went wrong. Please try again.";
+  }
+});
+
+subscribeForm.addEventListener("submit", async (event) => {
+  event.preventDefault();
+  newsletterNote.textContent = "";
+  const email = (subscribeEmail.value || "").trim();
+  const isValid = /\S+@\S+\.\S+/.test(email);
+  if (!isValid) {
+    newsletterNote.textContent = "Please enter a valid email.";
+    return;
+  }
+  const result = await postRecord(AIRTABLE_CONFIG.tables.subscribers, { Email: email });
+  if (result) {
+    newsletterNote.textContent = "Thanks! You're on the list.";
+    subscribeEmail.value = "";
+  } else {
+    newsletterNote.textContent = "Something went wrong. Please try again later.";
+  }
+});
+
+makerFilter.addEventListener("change", () => {
+  updateDirectoryList();
+});
+
+heroSubscribe?.addEventListener("click", () => {
+  document.getElementById("newsletter")?.scrollIntoView({ behavior: "smooth" });
+});
+
+function getInitialTab() {
+  const params = new URLSearchParams(window.location.search);
+  const requested = params.get("tab");
+  return requested && document.getElementById(requested) ? requested : "jobs";
+}
+
+function handleInitialTab() {
+  const tab = getInitialTab();
+  showSection(tab);
+  if (tab === "news" || tab === "events") {
+    document.getElementById(tab)?.scrollIntoView({ behavior: "smooth" });
+  }
+}
+
+window.addEventListener("popstate", handleInitialTab);
+
+handleInitialTab();
+loadAirtableData();
+
+    </script>
+  </body>
+</html>

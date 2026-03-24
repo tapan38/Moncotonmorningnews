@@ -1,0 +1,242 @@
+:root {
+  color-scheme: light;
+  font-family: "Space Grotesk", system-ui, -apple-system, sans-serif;
+  --bg: #0f172a;
+  --card: #1e293b;
+  --card-soft: #334155;
+  --text: #e2e8f0;
+  --muted: #94a3b8;
+  --accent: #f97316;
+  --accent-soft: rgba(249, 115, 22, 0.15);
+  --border: rgba(226, 232, 240, 0.1);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: linear-gradient(180deg, #020617 0%, #111827 50%, #0f172a 100%);
+  color: var(--text);
+}
+
+.page-shell {
+  min-height: 100vh;
+  padding: 2rem clamp(1rem, 4vw, 3rem) 3rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.hero {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 1.5rem;
+  padding: clamp(1.5rem, 3vw, 2.5rem);
+  box-shadow: 0 20px 45px rgba(15, 23, 42, 0.6);
+}
+
+.hero h1 {
+  margin: 0.25rem 0 0.75rem;
+  font-size: clamp(2.2rem, 4vw, 3.4rem);
+  line-height: 1.15;
+}
+
+.hero .lede {
+  color: var(--muted);
+  margin-bottom: 1.25rem;
+  max-width: 60ch;
+}
+
+.hero-actions {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.cta,
+.section-nav button {
+  background: linear-gradient(135deg, #f97316, #ea580c);
+  color: #fff;
+  text-decoration: none;
+  border: none;
+  padding: 0.9rem 1.5rem;
+  border-radius: 999px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.secondary {
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--text);
+  padding: 0.9rem 1.35rem;
+  border-radius: 999px;
+  cursor: pointer;
+}
+
+.section-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.section-nav button {
+  background: transparent;
+  border: 1px solid rgba(226, 232, 240, 0.4);
+  color: var(--text);
+  border-radius: 1rem;
+  padding: 0.65rem 1.25rem;
+  font-weight: 500;
+}
+
+.section-nav button.active {
+  border-color: var(--accent);
+  background: rgba(249, 115, 22, 0.15);
+  color: #fff;
+}
+
+.content {
+  display: grid;
+  gap: 1.5rem;
+}
+
+.section-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 1.25rem;
+  padding: 1.5rem;
+  box-shadow: 0 8px 30px rgba(15, 23, 42, 0.3);
+}
+
+.section-card h2 {
+  margin-top: 0;
+}
+
+.jobs-list,
+.business-grid,
+.news-list,
+.events-list,
+.tips-list,
+.deals-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.job-item,
+.business-item,
+.deal-item,
+.tip-item,
+.news-item,
+.event-item {
+  border: 1px solid rgba(226, 232, 240, 0.08);
+  padding: 1rem;
+  border-radius: 1rem;
+  background: var(--card-soft);
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.job-item .meta,
+.business-item .meta,
+.deal-item .meta,
+.tip-item .meta,
+.news-item .meta,
+.event-item .meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+.category-chip {
+  border-radius: 999px;
+  padding: 0.25rem 0.75rem;
+  background: rgba(249, 115, 22, 0.15);
+  color: #f97316;
+  font-size: 0.85rem;
+  display: inline-flex;
+  align-items: center;
+}
+
+.newsletter {
+  margin-top: 2rem;
+  padding: clamp(1.5rem, 3vw, 2.25rem);
+  border-radius: 1.25rem;
+  background: linear-gradient(135deg, rgba(249, 115, 22, 0.1), rgba(15, 23, 42, 0.9));
+  border: 1px solid var(--border);
+  box-shadow: 0 15px 35px rgba(15, 23, 42, 0.4);
+}
+
+.newsletter-form {
+  margin-top: 1rem;
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.newsletter-form input {
+  flex: 1;
+  min-width: 220px;
+  padding: 0.9rem 1rem;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  background: rgba(15, 23, 42, 0.75);
+  color: #fff;
+}
+
+.newsletter-form button {
+  border-radius: 999px;
+  border: none;
+  background: #fff;
+  color: #111827;
+  font-weight: 600;
+  padding: 0.85rem 1.5rem;
+  cursor: pointer;
+}
+
+.notice {
+  text-transform: uppercase;
+  font-size: 0.8rem;
+  letter-spacing: 0.1em;
+  color: var(--muted);
+}
+
+.filter-controls {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.75rem;
+  margin-top: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.filter-controls select {
+  border-radius: 999px;
+  padding: 0.55rem 1rem;
+  border: 1px solid rgba(226, 232, 240, 0.5);
+  background: var(--card);
+  color: var(--text);
+}
+
+@media (max-width: 720px) {
+  .hero-actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .hero-actions .cta,
+  .hero-actions .secondary {
+    width: 100%;
+    text-align: center;
+  }
+
+  .section-nav {
+    justify-content: center;
+  }
+}
