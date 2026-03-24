@@ -1,32 +1,14 @@
-const handler = async (event) => {
-    const apiKey = process.env.AIRTABLE_API_KEY;
-    const endpoint = 'TODO: Your AirTable endpoint URL';
+// Functionality related to Airtable
 
-    const headers = {
-        'Authorization': `Bearer ${apiKey}`,
-        'Content-Type': 'application/json',
-    };
+const endpoint = "https://api.airtable.com/v0/appRkIddAFC3p5eqv/";
+const apiKey = process.env.AIRTABLE_API_KEY;
 
-    try {
-        let response;
-        if (event.httpMethod === 'GET') {
-            response = await fetch(endpoint, { method: 'GET', headers });
-        } else if (event.httpMethod === 'POST') {
-            const body = JSON.parse(event.body);
-            response = await fetch(endpoint, { method: 'POST', headers, body: JSON.stringify(body) });
-        } else {
-            return { statusCode: 405, body: JSON.stringify({ message: 'Method Not Allowed' }) };
-        }
+async function fetchDataFromAirtable() {
+    const response = await fetch(`${endpoint}YourTableName`, {
+        headers: { Authorization: `Bearer ${apiKey}` },
+    });
+    const data = await response.json();
+    return data;
+}
 
-        const data = await response.json();
-        return {
-            statusCode: response.ok ? 200 : response.status,
-            body: JSON.stringify(data),
-        };
-    } catch (error) {
-        console.error('Error:', error);
-        return { statusCode: 500, body: JSON.stringify({ message: 'Internal Server Error' }) };
-    }
-};
-
-exports.handler = handler;
+module.exports = { fetchDataFromAirtable };
