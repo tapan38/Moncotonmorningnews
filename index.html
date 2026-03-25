@@ -535,10 +535,12 @@
       </div>
     </div>
 
+    <script src="airtable-config.js"></script>
     <script>
+const envConfig = window.MONCTON_CONFIG || {};
 const AIRTABLE_CONFIG = {
-  apiKey: "AIRTABLE_API_KEY",
-  baseId: "appRkIddAFC3p5eqv",
+  apiKey: envConfig.airtableApiKey || "REPLACE_WITH_YOUR_API_KEY",
+  baseId: envConfig.baseId || "appRkIddAFC3p5eqv",
   tables: {
     jobs: "Jobs",
     directory: "Directory",
