@@ -503,9 +503,9 @@
           <a href="about.html">About</a><span>&middot;</span>
           <a href="privacy.html">Privacy</a><span>&middot;</span>
           <a href="terms.html">Terms</a><span>&middot;</span>
-          <a href="mailto:monctonmorning@gmail.com">Contact</a>
+          <a href="mailto:tapan@monctonmorning.ca">Contact</a>
         </div>
-        <div>monctonmorning@gmail.com</div>
+        <div>tapan@monctonmorning.ca</div>
       </footer>
     </div>
 
@@ -567,14 +567,26 @@ async function fetchTable(tableName) {
     const url = `${apiBase}${encodeURIComponent(tableName)}?pageSize=100`;
     const response = await fetch(url, { headers: authHeaders() });
     if (!response.ok) {
-      console.error("Airtable error", tableName, response.status, await response.text());
-      return [];
+      const errorText = await response.text();
+      throw new Error(`Airtable error ${tableName}: ${response.status} ${errorText}`);
     }
     const data = await response.json();
     return (data.records || []).map((record) => ({ ...record.fields, _createdTime: record.createdTime }));
   } catch (error) {
     console.error("Could not fetch", tableName, error);
-    return [];
+    throw error;
+  }
+}
+
+async function fetchAndRender(tableName, renderFn, targetElement, loadingText, sectionLabel) {
+  if (loadingText) {
+    showLoading(targetElement, loadingText);
+  }
+  try {
+    const records = await fetchTable(tableName);
+    renderFn(records);
+  } catch {
+    showError(targetElement, sectionLabel);
   }
 }
 
@@ -619,6 +631,26 @@ const newsList = document.querySelector("#news .news-list");
 const eventsList = document.querySelector("#events .events-list");
 
 let directoryRecords = [];
+
+const loadingMessages = {
+  jobs: "Loading jobs…",
+  makers: "Loading local makers & services…",
+  deals: "Loading deals…",
+  news: "Loading local news…",
+  events: "Loading local events…"
+};
+
+function showLoading(target, text) {
+  if (target) {
+    target.textContent = text;
+  }
+}
+
+function showError(target, sectionLabel) {
+  if (target) {
+    target.textContent = `Couldn't load ${sectionLabel}. Please refresh the page.`;
+  }
+}
 
 function showSection(id) {
   sections.forEach((section) => {
@@ -1011,21 +1043,50 @@ function renderDirectory(records) {
 }
 
 async function loadAirtableData() {
-  const [jobs, directory, deals, tips, news, events] = await Promise.all([
-    fetchTable(AIRTABLE_CONFIG.tables.jobs),
-    fetchTable(AIRTABLE_CONFIG.tables.directory),
-    fetchTable(AIRTABLE_CONFIG.tables.deals),
-    fetchTable(AIRTABLE_CONFIG.tables.tips),
-    fetchTable(AIRTABLE_CONFIG.tables.news),
-    fetchTable(AIRTABLE_CONFIG.tables.events)
+  await Promise.all([
+    fetchAndRender(
+      AIRTABLE_CONFIG.tables.jobs,
+      renderJobs,
+      jobList,
+      loadingMessages.jobs,
+      "jobs"
+    ),
+    fetchAndRender(
+      AIRTABLE_CONFIG.tables.directory,
+      renderDirectory,
+      businessGrid,
+      loadingMessages.makers,
+      "local makers & services"
+    ),
+    fetchAndRender(
+      AIRTABLE_CONFIG.tables.deals,
+      renderDeals,
+      dealsList,
+      loadingMessages.deals,
+      "deals"
+    ),
+    fetchAndRender(
+      AIRTABLE_CONFIG.tables.news,
+      renderNews,
+      newsList,
+      loadingMessages.news,
+      "local news"
+    ),
+    fetchAndRender(
+      AIRTABLE_CONFIG.tables.events,
+      renderEvents,
+      eventsList,
+      loadingMessages.events,
+      "local events"
+    )
   ]);
 
-  renderJobs(jobs);
-  renderDirectory(directory);
-  renderDeals(deals);
-  renderSideHustle(tips);
-  renderNews(news);
-  renderEvents(events);
+  try {
+    const tips = await fetchTable(AIRTABLE_CONFIG.tables.tips);
+    renderSideHustle(tips);
+  } catch {
+    showError(tipsList, "side hustle tips");
+  }
 }
 
 navButtons.forEach((button) => {
