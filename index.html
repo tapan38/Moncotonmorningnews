@@ -503,9 +503,9 @@
           <a href="about.html">About</a><span>&middot;</span>
           <a href="privacy.html">Privacy</a><span>&middot;</span>
           <a href="terms.html">Terms</a><span>&middot;</span>
-          <a href="mailto:monctonmorning@gmail.com">Contact</a>
+          <a href="mailto:tapan@monctonmorning.ca">Contact</a>
         </div>
-        <div>monctonmorning@gmail.com</div>
+        <div>tapan@monctonmorning.ca</div>
       </footer>
     </div>
 
@@ -562,33 +562,6 @@ const jsonHeaders = () => ({
   "Content-Type": "application/json"
 });
 
-async function fetchTable(tableName) {
-  try {
-    const url = `${apiBase}${encodeURIComponent(tableName)}?pageSize=100`;
-    const response = await fetch(url, { headers: authHeaders() });
-    if (!response.ok) {
-      const errorText = await response.text();
-      throw new Error(`Airtable error ${tableName}: ${response.status} ${errorText}`);
-    }
-    const data = await response.json();
-    return (data.records || []).map((record) => ({ ...record.fields, _createdTime: record.createdTime }));
-  } catch (error) {
-    console.error("Could not fetch", tableName, error);
-    throw error;
-  }
-}
-
-async function fetchAndRender(tableName, renderFn, targetElement, loadingText, sectionLabel) {
-  if (loadingText) {
-    showLoading(targetElement, loadingText);
-  }
-  try {
-    const records = await fetchTable(tableName);
-    renderFn(records);
-  } catch {
-    showError(targetElement, sectionLabel);
-  }
-}
 
 async function postRecord(tableName, fields) {
   try {
@@ -1042,49 +1015,32 @@ function renderDirectory(records) {
   updateDirectoryList();
 }
 
-async function loadAirtableData() {
-  await Promise.all([
-    fetchAndRender(
-      AIRTABLE_CONFIG.tables.jobs,
-      renderJobs,
-      jobList,
-      loadingMessages.jobs,
-      "jobs"
-    ),
-    fetchAndRender(
-      AIRTABLE_CONFIG.tables.directory,
-      renderDirectory,
-      businessGrid,
-      loadingMessages.makers,
-      "local makers & services"
-    ),
-    fetchAndRender(
-      AIRTABLE_CONFIG.tables.deals,
-      renderDeals,
-      dealsList,
-      loadingMessages.deals,
-      "deals"
-    ),
-    fetchAndRender(
-      AIRTABLE_CONFIG.tables.news,
-      renderNews,
-      newsList,
-      loadingMessages.news,
-      "local news"
-    ),
-    fetchAndRender(
-      AIRTABLE_CONFIG.tables.events,
-      renderEvents,
-      eventsList,
-      loadingMessages.events,
-      "local events"
-    )
-  ]);
+async function loadSnapshotData() {
+  showLoading(jobList, loadingMessages.jobs);
+  showLoading(businessGrid, loadingMessages.makers);
+  showLoading(dealsList, loadingMessages.deals);
+  showLoading(newsList, loadingMessages.news);
+  showLoading(eventsList, loadingMessages.events);
 
   try {
-    const tips = await fetchTable(AIRTABLE_CONFIG.tables.tips);
-    renderSideHustle(tips);
-  } catch {
+    const response = await fetch("/data-snapshot.json");
+    if (!response.ok) {
+      throw new Error("Failed to load data snapshot");
+    }
+    const snapshot = await response.json();
+    renderJobs(snapshot.jobs || []);
+    renderDirectory(snapshot.businesses || []);
+    renderDeals(snapshot.deals || []);
+    renderNews(snapshot.news || []);
+    renderEvents(snapshot.events || []);
+    renderSideHustle(snapshot.tips || []);
+  } catch (error) {
+    console.error("Snapshot loading error", error);
+    showError(jobList, "jobs");
+    showError(businessGrid, "local makers & services");
+    showError(dealsList, "deals");
+    showError(newsList, "local news");
+    showError(eventsList, "local events");
     showError(tipsList, "side hustle tips");
   }
 }
@@ -1183,7 +1139,7 @@ function handleInitialTab() {
 window.addEventListener("popstate", handleInitialTab);
 
 handleInitialTab();
-loadAirtableData();
+loadSnapshotData();
 
     </script>
   </body>
